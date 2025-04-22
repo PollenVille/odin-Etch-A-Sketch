@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="container">
+      <button id="resize">Resize Grid</button>
+    </div>
+
+    <script>
+      let container = document.getElementById("container");
+      let resizeBtn = document.getElementById("resize");
+
+      function drawPath() {
+        let squareNodes = document.getElementsByClassName("rows");
+        for (let square of squareNodes) {
+          square.addEventListener("mouseover", function () {
+            square.classList.add("drawn");
+          });
+        }
+      }
+
+      function CreateGrid(size = 16) {
+        let grid = document.createElement("div");
+        grid.setAttribute("id", "grid");
+        for (let i = 0; i < size; i++) {
+          let column = document.createElement("div");
+          column.setAttribute("id", `column_${i}`);
+          column.setAttribute("class", "columns");
+          for (let j = 0; j < size; j++) {
+            let div = document.createElement("div");
+            div.setAttribute("id", `row_${j}`);
+            div.setAttribute("class", "rows");
+            column.appendChild(div);
+          }
+          grid.appendChild(column);
+        }
+        container.appendChild(grid);
+        drawPath();
+      }
+
+      resizeBtn.addEventListener("click", function () {
+        let newSize = prompt("New size(1-100)");
+        if (newSize != null && newSize > 16 && newSize <= 100) {
+          container.removeChild(grid);
+          CreateGrid(newSize);
+        } else {
+          container.removeChild(grid);
+          alert("Invalid input. Grid resized to 16 x 16");
+          CreateGrid();
+        }
+      });
+      CreateGrid();
+    </script>
+  </body>
+</html>
